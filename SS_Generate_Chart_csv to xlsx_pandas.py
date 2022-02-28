@@ -1,5 +1,6 @@
 
-# Create an excel file with condensed data on one sheet and a chart on the second
+#TODELETE
+#  Create an excel file with condensed data on one sheet and a chart on the second
 
 import datetime
 

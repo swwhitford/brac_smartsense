@@ -1,4 +1,5 @@
-# split the input file by date, adding the month at the end of the new filename (data.csv becomes data.csv01.csv for January data)
+#TODELETE?
+#  split the input file by date, adding the month at the end of the new filename (data.csv becomes data.csv01.csv for January data)
 from datetime import datetime
 from os.path import exists, splitext
 
