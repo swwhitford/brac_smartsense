@@ -8,8 +8,6 @@ from matplotlib import lines
 from digi_login import dlpoints
 
 if __name__ == "__main__":
-    # Do something here
-    #print("Hello World")
     assets = {
         156368,
         156370,
