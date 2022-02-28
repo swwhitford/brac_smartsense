@@ -3,9 +3,6 @@ from os.path import exists, splitext
 
 from requests import Session
 
-# from login import data
-
-
 def main():
 
     startTS = "1644382800000"
