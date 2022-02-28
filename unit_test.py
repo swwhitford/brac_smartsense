@@ -1,21 +1,20 @@
 import datetime
 import unittest
 
-from smartsense.digi_login import checkHTMLResponse, dlpoints
-from smartsense.TempScraper import (
+from digi_login import checkHTMLResponse, dlpoints
+from TempScraper import (
     dateToTimestamp,
     dlMonthChart,
-    eachAsset,
+    eachAssetXL,
+    eachAssetCSV,
     getMonthYearRange,
     my_StringtoDatetime,
 )
 
 asset = "156354"
 
-
-class TestRecordsByDate(unittest.TestCase):
+class smartSenseTests(unittest.TestCase):
     print("Running Test")
-
     def test_checkHTMLResponse(self):
         from requests import Session
 
@@ -24,6 +23,7 @@ class TestRecordsByDate(unittest.TestCase):
         expected = "Code: 405 Method Not Allowed"
         actual = checkHTMLResponse(response)
         self.assertEqual(actual, expected)
+
 
     def test_dlpoints(self):
         startTS = "1644382800000"
@@ -93,6 +93,45 @@ class TestRecordsByDate(unittest.TestCase):
         self.assertEqual(expected, actual)
         # print (t.getMonthYearRange(startDT, endDT))
 
+    def test_FirstDate(self):
+        import datetime;
+        import time
+        now = datetime.datetime.now().date()
+        nowStr = str(now)
+        ts = int(time.mktime(time.strptime(nowStr,"%Y-%m-%d"))) - time.timezone
+        response = dlMonthChart(asset,now.month, now.year)
+
+        l = response.text.splitlines()[1]
+        datet = l.split(",")[1]
+
+        self.assertEqual(int(datet[0:2]), now.month)
+
+    def test_LastDate(self):
+        import datetime;
+        import time
+        now = datetime.datetime.now().date()
+        nowStr = str(now)
+        ts = int(time.mktime(time.strptime(nowStr,"%Y-%m-%d"))) - time.timezone
+        response = dlMonthChart(asset,now.month, now.year)
+
+        l = response.text.splitlines()[-1]
+        datet = l.split(",")[1]
+
+        self.assertEqual(int(datet[0:2]), now.month)
+
+    def test_dlpoints(self):
+        import datetime;
+        import time
+        now = datetime.datetime.now().date()
+        nowStr = str(now)
+        ts = int(time.mktime(time.strptime(nowStr,"%Y-%m-%d"))) - time.timezone
+        #rsp = dlpoints(asset, startTS, endTS)
+        #TODO: Finish
+        #self.assertEquals(0,1)
+        self.fail()
+
+
 
 if __name__ == "__main__":
     unittest.main()
+    
