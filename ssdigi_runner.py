@@ -1,9 +1,5 @@
-#from convertToExcel import createXLSX
 from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime
 
-#import pandas as pd
-#import xlsxwriter
-#from matplotlib import lines
 
 from digi_login import dlpoints
 
@@ -26,14 +22,3 @@ if __name__ == "__main__":
 
     eachAssetXL(assets, startDate, endDate)
 
-
-def csvtoexcel():
-    print("hello World")
-
-
-def listtoexcel():
-    print("list to Excel")
-
-
-def filesInDirToList():
-    print("files in dir")
