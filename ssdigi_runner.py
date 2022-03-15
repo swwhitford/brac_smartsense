@@ -1,9 +1,9 @@
-from convertToExcel import createXLSX
+#from convertToExcel import createXLSX
 from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime
 
-import pandas as pd
-import xlsxwriter
-from matplotlib import lines
+#import pandas as pd
+#import xlsxwriter
+#from matplotlib import lines
 
 from digi_login import dlpoints
 
