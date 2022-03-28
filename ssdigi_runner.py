@@ -1,4 +1,4 @@
-from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime
+from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime, dlMonthChart, responseToFile
 
 
 from digi_login import dlpoints
@@ -22,3 +22,12 @@ if __name__ == "__main__":
 
     eachAssetXL(assets, startDate, endDate)
 
+
+def singleMonthToCSV():
+    asset = 156368
+    month = 5
+    year = 2021
+
+    response = dlMonthChart(asset, month, year)
+    responseToFile(response, asset+"-"+month+"-"+year+".csv")
+    
