@@ -1,5 +1,5 @@
 from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime, dlMonthChart, responseToFile
-
+import convertToExcel
 
 from digi_login import dlpoints
 
@@ -24,10 +24,18 @@ if __name__ == "__main__":
 
 
 def singleMonthToCSV():
-    asset = 156368
+    asset = "156368"
     month = 5
     year = 2021
 
     response = dlMonthChart(asset, month, year)
-    responseToFile(response, asset+"-"+month+"-"+year+".csv")
+    responseToFile(response, asset+"-"+str(month)+"-"+str(year)+".csv")
+
+def singleMonthToXLS():
+    asset = "156368"
+    month = 5
+    year = 2021
+
+    response = dlMonthChart(asset, month, year)
+    convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv")
     
