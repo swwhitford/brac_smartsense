@@ -17,8 +17,8 @@ if __name__ == "__main__":
         160840,
     }
 
-    startDate = my_StringtoDatetime("1/1/2022")
-    endDate = my_StringtoDatetime("2/1/2022 23:59:59")
+    startDate = my_StringtoDatetime("3/1/2022")
+    endDate = my_StringtoDatetime("3/31/2022 23:59:59")
 
     eachAssetXL(assets, startDate, endDate)
 

@@ -37,9 +37,28 @@ def createXLSX(response, outputFileName: str):
     # Convert the dataframe to an XlsxWriter Excel object.
     df.to_excel(writer, sheet_name="Sheet1")
 
+
+
+
+
+
+
     workbook = writer.book
     worksheet = writer.sheets["Sheet1"]
 
+    #TODO: Add conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
+    #TODO: Read title to get whether freezer is -20 or -80 --> low_range & high_range
+    #TODO: declare format1 as highlight
+"""   
+format1 = 
+ 
+    worksheet.conditional_format('D:D', {'type':     'cell',
+                                        'criteria': 'not between',
+                                       'minimum':  low_range,
+                                       'maximum':  high_range,
+                                        'format':   format1})
+
+"""
     # Adjust the width of the first column to make the date values clearer.
     worksheet.set_column("A:A", 20)
 
