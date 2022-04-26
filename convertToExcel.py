@@ -49,9 +49,10 @@ def createXLSX(response, outputFileName: str):
     #TODO: Add conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
     #TODO: Read title to get whether freezer is -20 or -80 --> low_range & high_range
     #TODO: declare format1 as highlight
-"""   
-format1 = 
- 
+  
+    format1 =  workbook.add_format({'bg_color':   '#FFEB9C',
+                               'font_color': '#9C6500'})
+"""  
     worksheet.conditional_format('D:D', {'type':     'cell',
                                         'criteria': 'not between',
                                        'minimum':  low_range,
