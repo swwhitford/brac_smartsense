@@ -48,24 +48,33 @@ def createXLSX(response, outputFileName: str):
 
     #TODO: Add conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
     #TODO: Read title to get whether freezer is -20 or -80 --> low_range & high_range
-    #TODO: declare format1 as highlight
+    low_range = 100
+    high_range = 101
+    
+    if "-20" in chartTitle:
+        low_range = -25
+        high_range = -15
   
-    format1 =  workbook.add_format({'bg_color':   '#FFEB9C',
-                               'font_color': '#9C6500'})
-"""  
-    worksheet.conditional_format('D:D', {'type':     'cell',
+    if "-80" in chartTitle:
+        low_range = -65
+        high_range = -95
+  
+
+    format1 =  workbook.add_format({'bg_color':   '#FFFF00'})
+
+    worksheet.conditional_format('D1:D1048576', {'type':     'cell',
                                         'criteria': 'not between',
-                                       'minimum':  low_range,
-                                       'maximum':  high_range,
+                                        'minimum':  low_range,
+                                        'maximum':  high_range,
                                         'format':   format1})
 
-"""
     # Adjust the width of the first column to make the date values clearer.
     worksheet.set_column("A:A", 20)
 
     # Create a chart object.
     chart = workbook.add_chart({"type": "line"})
-    # chart = workbook.add_chart({"type": "scatter"})
+    #chart = workbook.add_chart({"type": "scatter"})
+    
 
     # Configure the series of the chart from the dataframe data.
     max_row = len(df) + 1
@@ -75,6 +84,8 @@ def createXLSX(response, outputFileName: str):
             "name": ["Sheet1", 0, 5],
             "categories": ["Sheet1", 1, 2, max_row, 2],
             "values": ["Sheet1", 1, 3, max_row, 3],
+            #'line':   {'color': 'blue'},
+            #'marker': {'type': 'none'},
         }
     )
 
