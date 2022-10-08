@@ -10,11 +10,12 @@ if __name__ == "__main__":
         156375,
         156376,
         156377,
-        #156378,
+        #156378, #inherited freezer
         156452,
         156453,
         156454,
         160840,
+        445018 #so Low in 479
     }
 
     startDate = my_StringtoDatetime("1/1/2022")
