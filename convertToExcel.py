@@ -10,6 +10,25 @@ from digi_login import dlpoints
 def createXLSX(response, outputFileName: str):
 
     # outputFileName = "output.xlsx"
+    #TODO: For each sensor name (to accomodate when multiple sensors are on the same freezer)
+    #seperate dataframes for each sensor name?
+    '''
+    #get unique sensor names, and put in a list
+    #FYI: each unit will have a max of 3 sensors
+    for each item in a list
+        df1 = df[df['Sensor Name'] == item]
+    put each data frame in a new tab (and generate a chart for each)
+    
+
+    #could be done as lines are being appended
+    sName = l.split(",")[0] will give the name of the sensor:
+    if value of sName is not already in the nameList; add it 
+    find index that matches sName in nameList
+    lines[index].append(l.split(","))
+    for each lines do process
+        
+    '''
+
 
     lines = []
     for l in response.text.splitlines():
@@ -31,14 +50,17 @@ def createXLSX(response, outputFileName: str):
     df["Date"] = pd.to_datetime(df["Date"])
     df["Reading"] = pd.to_numeric(df["Reading"])
 
+    sName = df["Sensor Name"].iloc[0]
+    #or df._get_value(1, "Sensor Name")
+
     # Create a Pandas Excel writer using XlsxWriter as the engine.
     writer = pd.ExcelWriter(outputFileName, engine="xlsxwriter")
 
     # Convert the dataframe to an XlsxWriter Excel object.
-    df.to_excel(writer, sheet_name="Sheet1")
+    df.to_excel(writer, sheet_name=sName)
 
     workbook = writer.book
-    worksheet = writer.sheets["Sheet1"]
+    worksheet = writer.sheets[sName]
 
     # Adjust the width of the first column to make the date values clearer.
     worksheet.set_column("A:A", 20)
@@ -52,9 +74,9 @@ def createXLSX(response, outputFileName: str):
 
     chart.add_series(
         {
-            "name": ["Sheet1", 0, 5],
-            "categories": ["Sheet1", 1, 2, max_row, 2],
-            "values": ["Sheet1", 1, 3, max_row, 3],
+            "name": [sName, 0, 5],
+            "categories": [sName, 1, 2, max_row, 2],
+            "values": [sName, 1, 3, max_row, 3],
         }
     )
 
