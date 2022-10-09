@@ -68,7 +68,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     + ".xlsx"
                 )
                 #print (filename)
-                convertToExcel.createXLSX(resp, filename)
+                convertToExcel.createXLSX(resp, "output/" + filename)
             else:
                 print("No Data for Asset: " + strAsset + ", " + strMonthYr + ".  SmartSense only stores data for 2 years.")
 
