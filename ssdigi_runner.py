@@ -4,6 +4,7 @@ import convertToExcel
 from digi_login import dlpoints
 
 if __name__ == "__main__":
+    
     assets = {
         156368,
         156370,
@@ -18,10 +19,11 @@ if __name__ == "__main__":
         445018 #so Low in 479
     }
 
-    startDate = my_StringtoDatetime("1/1/2022")
-    endDate = my_StringtoDatetime("2/1/2022 23:59:59")
+    startDate = my_StringtoDatetime("9/1/2022")
+    endDate = my_StringtoDatetime("10/1/2022 23:59:59")
 
-    eachAssetXL(assets, startDate, endDate)
+    #eachAssetXL(assets, startDate, endDate)
+    eachAssetXL({156368}, startDate, endDate)
 
 
 def singleMonthToCSV():
