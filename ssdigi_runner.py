@@ -22,9 +22,7 @@ if __name__ == "__main__":
     startDate = my_StringtoDatetime("9/1/2022")
     endDate = my_StringtoDatetime("10/1/2022 23:59:59")
 
-    #eachAssetXL(assets, startDate, endDate)
-    eachAssetXL({156368}, startDate, endDate)
-
+    eachAssetXL(assets, startDate, endDate)
 
 def singleMonthToCSV():
     asset = "156368"
