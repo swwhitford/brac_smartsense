@@ -39,7 +39,8 @@ def createXLSX(response, outputFileName: str):
         df["Date"] = pd.to_datetime(df["Date"])
         df["Reading"] = pd.to_numeric(df["Reading"])
 
-        sName = df["Sensor Name"].iloc[0]
+        sName2 = df["Sensor Name"].iloc[0]
+        sName = sName2[:30]
         #or df._get_value(1, "Sensor Name")
 
         # Convert the dataframe to an XlsxWriter Excel object.
