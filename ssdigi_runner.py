@@ -25,6 +25,7 @@ if __name__ == "__main__":
     eachAssetXL(assets, startDate, endDate)
 
 def singleMonthToCSV():
+    """create a CSV file for a single month"""
     asset = "156368"
     month = 5
     year = 2021
@@ -33,6 +34,7 @@ def singleMonthToCSV():
     responseToFile(response, asset+"-"+str(month)+"-"+str(year)+".csv")
 
 def singleMonthToXLS():
+    """convert a CSV file for a single month to XLSX"""
     asset = "156368"
     month = 5
     year = 2021
