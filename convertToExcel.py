@@ -28,32 +28,32 @@ def createXLSX(response, outputFileName: str):
             columns=["Location", "Asset Name","Sensor Name", "Date & Time (UTC-5)", "Reading", "Reading Type","Port Number", "In Alarm","Received by Server"],
         )
 
-        df.drop(index=0, inplace=True)
-        df.rename(columns={"Date & Time (UTC-5)": "Date"}, inplace=True)
+    df.drop(index=0, inplace=True)
+    df.rename(columns={"Date & Time (UTC-5)": "Date"}, inplace=True)
 
-        df = df.sort_values(by="Date")
+    df = df.sort_values(by="Date")
 
-        chartTitle = getChartTitle(df)
+    chartTitle = getChartTitle(df)
 
 
 
-        # Set Column types
-        df["Date"] = pd.to_datetime(df["Date"])
-        df["Reading"] = pd.to_numeric(df["Reading"])
+    # Set Column types
+    df["Date"] = pd.to_datetime(df["Date"])
+    df["Reading"] = pd.to_numeric(df["Reading"])
 
-        sName2 = df["Sensor Name"].iloc[0]
-        sName = sName2[:30]
-        #or df._get_value(1, "Sensor Name")
+    sName2 = df["Sensor Name"].iloc[0]
+    sName = sName2[:30]
+    #or df._get_value(1, "Sensor Name")
 
     #list column names so they can be called by name, rather than index 
     cols = df.columns.tolist()
     cols.insert(0,"index")
 
-        # Convert the dataframe to an XlsxWriter Excel object.
-        df.to_excel(writer, sheet_name=sName)
+    # Convert the dataframe to an XlsxWriter Excel object.
+    df.to_excel(writer, sheet_name=sName)
 
-        workbook = writer.book
-        worksheet = writer.sheets[sName]
+    workbook = writer.book
+    worksheet = writer.sheets[sName]
 
     #TODO: Add conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
     #TODO: Read title to get whether freezer is -20 or -80 --> low_range & high_range
@@ -77,42 +77,42 @@ def createXLSX(response, outputFileName: str):
                                         'maximum':  high_range,
                                         'format':   format1})
 
-        # Adjust the width of the first column to make the date values clearer.
-        worksheet.set_column("A:A", 20)
+    # Adjust the width of the first column to make the date values clearer.
+    worksheet.set_column("A:A", 20)
 
-        # Create a chart object.
-        chart = workbook.add_chart({"type": "line"})
-        #chart = workbook.add_chart({"type": "scatter"})
+    # Create a chart object.
+    chart = workbook.add_chart({"type": "line"})
+    #chart = workbook.add_chart({"type": "scatter"})
     
 
-        # Configure the series of the chart from the dataframe data.
-        max_row = len(df) + 1
+    # Configure the series of the chart from the dataframe data.
+    max_row = len(df) + 1
 
     #[sheetname, first_row, first_col, last_row, last_col]
     chart.add_series(
         {
-            "name": ["Sheet1", 0, 5],
-            "categories": ["Sheet1", 1, cols.index("Date"), max_row, cols.index("Date")],
-            "values": ["Sheet1", 1, cols.index("Reading"), max_row, cols.index("Reading")],
+            "name": [sName, 0, 5],
+            "categories": [sName, 1, cols.index("Date"), max_row, cols.index("Date")],
+            "values": [sName, 1, cols.index("Reading"), max_row, cols.index("Reading")],
             #'line':   {'color': 'blue'},
             #'marker': {'type': 'none'},
         }
     )
 
-        chart.set_title({"name": chartTitle})
-        chart.set_x_axis({"name": "Date"})
-        chart.set_x_axis(
-            {"date_axis": True, "num_format": "mm/dd/yyyy", "major_unit": 1,}
-        )
+    chart.set_title({"name": chartTitle})
+    chart.set_x_axis({"name": "Date"})
+    chart.set_x_axis(
+        {"date_axis": True, "num_format": "mm/dd/yyyy", "major_unit": 1,}
+    )
 
-        chart.set_y_axis({"name": "Temperature"})
-        chart.set_legend({"none": True})
+    chart.set_y_axis({"name": "Temperature"})
+    chart.set_legend({"none": True})
 
-        chartsheet = workbook.add_chartsheet()
-        chartsheet.set_chart(chart)
+    chartsheet = workbook.add_chartsheet()
+    chartsheet.set_chart(chart)
 
-        chartsheet.set_first_sheet()  # First visible worksheet tab.
-        chartsheet.activate()  # First visible worksheet.
+    chartsheet.set_first_sheet()  # First visible worksheet tab.
+    chartsheet.activate()  # First visible worksheet.
 
     # Close the Pandas Excel writer and output the Excel file.
     writer.save()

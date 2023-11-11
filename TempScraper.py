@@ -59,7 +59,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
             if (resp.text.count('\n') != 1):
                 print("Generating file for Asset: " + strAsset + ", " + strMonthYr)
                 filename = (
-                    "exports/Temp_"
+                    "Temp_"
                     + str(asset)
                     + "_"
                     + str(monthYr[0])
