@@ -20,13 +20,13 @@ def my_StringtoDatetime(str: str) -> datetime:
         return datetime.datetime.strptime(str, "%m/%d/%Y")
 
 
-def main():
+""" def main():
     assetList = (156376, 156377)
 
     endStr = "12/31/2000 23:59:59"
     startDate = my_StringtoDatetime(startStr)
     endDate = my_StringtoDatetime(endStr)
-    eachAssetCSV(assetList, startDate, endDate)
+    eachAssetCSV(assetList, startDate, endDate) """
 
 
 def dlMonthChart(asset: str, month: int, year: int) -> response:
