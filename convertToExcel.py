@@ -17,7 +17,7 @@ def createXLSX(response, outputFileName: str):
 
     df = pd.DataFrame(
         lines,
-        columns=["Sensor Name", "Date & Time (UTC-5)", "Reading", "Reading Type"],
+        columns=["Location", "Asset Name","Sensor Name", "Date & Time (UTC-5)", "Reading", "Reading Type","Port Number", "In Alarm","Received by Server"],
     )
 
     df.drop(index=0, inplace=True)
@@ -27,6 +27,8 @@ def createXLSX(response, outputFileName: str):
 
     chartTitle = getChartTitle(df)
 
+
+
     # Set Column types
     df["Date"] = pd.to_datetime(df["Date"])
     df["Reading"] = pd.to_numeric(df["Reading"])
@@ -34,14 +36,12 @@ def createXLSX(response, outputFileName: str):
     # Create a Pandas Excel writer using XlsxWriter as the engine.
     writer = pd.ExcelWriter(outputFileName, engine="xlsxwriter")
 
+    #list column names so they can be called by name, rather than index 
+    cols = df.columns.tolist()
+    cols.insert(0,"index")
+
     # Convert the dataframe to an XlsxWriter Excel object.
     df.to_excel(writer, sheet_name="Sheet1")
-
-
-
-
-
-
 
     workbook = writer.book
     worksheet = writer.sheets["Sheet1"]
@@ -79,11 +79,12 @@ def createXLSX(response, outputFileName: str):
     # Configure the series of the chart from the dataframe data.
     max_row = len(df) + 1
 
+    #[sheetname, first_row, first_col, last_row, last_col]
     chart.add_series(
         {
             "name": ["Sheet1", 0, 5],
-            "categories": ["Sheet1", 1, 2, max_row, 2],
-            "values": ["Sheet1", 1, 3, max_row, 3],
+            "categories": ["Sheet1", 1, cols.index("Date"), max_row, cols.index("Date")],
+            "values": ["Sheet1", 1, cols.index("Reading"), max_row, cols.index("Reading")],
             #'line':   {'color': 'blue'},
             #'marker': {'type': 'none'},
         }
