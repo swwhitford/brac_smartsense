@@ -7,26 +7,25 @@ from urllib import response
 import convertToExcel
 
 # from smartsense.digi_login import *
-from digi_login import *
+from digi_login import dlpoints, responseToFile
 
 
-def my_StringtoDatetime(str: str) -> datetime:
+def my_StringtoDatetime(strdate: str) -> datetime:
     # convert date string to date object
 
     # if str contains a space, assume it includes a time
-    if " " in str:
-        return datetime.datetime.strptime(str, "%m/%d/%Y %H:%M:%S")
-    else:
-        return datetime.datetime.strptime(str, "%m/%d/%Y")
+    if " " in strdate:
+        return datetime.datetime.strptime(strdate, "%m/%d/%Y %H:%M:%S")
+    return datetime.datetime.strptime(strdate, "%m/%d/%Y")
 
 
-""" def main():
-    assetList = (156376, 156377)
+# def main():
+#     assetList = (156376, 156377)
 
-    endStr = "12/31/2000 23:59:59"
-    startDate = my_StringtoDatetime(startStr)
-    endDate = my_StringtoDatetime(endStr)
-    eachAssetCSV(assetList, startDate, endDate) """
+#     endStr = "12/31/2000 23:59:59"
+#     startDate = my_StringtoDatetime(startStr)
+#     endDate = my_StringtoDatetime(endStr)
+#     eachAssetCSV(assetList, startDate, endDate)
 
 
 def dlMonthChart(asset: str, month: int, year: int) -> response:
@@ -51,12 +50,12 @@ def dlMonthChart(asset: str, month: int, year: int) -> response:
 def eachAssetXL(assetList: list, start: datetime, end: datetime):
     for monthYr in getMonthYearRange(start, end):
         for asset in assetList:
-            strAsset = str(asset) 
+            strAsset = str(asset)
             strMonthYr = str(monthYr[0]) + "-" + str(monthYr[1])
-            
+
             resp = dlMonthChart(asset, monthYr[0], monthYr[1])
-            #If resp is empty (only one row for title), then skip
-            if (resp.text.count('\n') != 1):
+            # If resp is empty (only one row for title), then skip
+            if resp.text.count("\n") != 1:
                 print("Generating file for Asset: " + strAsset + ", " + strMonthYr)
                 filename = (
                     "Temp_"
@@ -67,10 +66,16 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     + str(monthYr[1])
                     + ".xlsx"
                 )
-                #print (filename)
+                # print (filename)
                 convertToExcel.createXLSX(resp, "output/" + filename)
             else:
-                print("No Data for Asset: " + strAsset + ", " + strMonthYr + ".  SmartSense only stores data for 2 years.")
+                print(
+                    "No Data for Asset: "
+                    + strAsset
+                    + ", "
+                    + strMonthYr
+                    + ".  SmartSense only stores data for 2 years."
+                )
 
 
 def eachAssetCSV(assetList: list, start: datetime, end: datetime):
@@ -115,14 +120,14 @@ def getMonthYearRange(startDate: datetime, endDate: datetime) -> tuple:
     return monthYear
 
 
-""" Convert timestamp to datetime
-from datetime import datetime
-dt = datetime.fromtimestamp(1638334800000 // 1000)
-print(dt) """
+# Convert timestamp to datetime
+# from datetime import datetime
+# dt = datetime.fromtimestamp(1638334800000 // 1000)
+# print(dt)
 
 
 if __name__ == "__main__":
-    assetList = ("156376", "156377")
+    thisassetList = ("156376", "156377")
     startStr = "1/1/2000 00:00:00"
     endStr = "2/28/2000 23:59:59"
-    eachAssetXL(assetList, startStr, endStr)
+    eachAssetXL(thisassetList, startStr, endStr)

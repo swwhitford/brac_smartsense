@@ -34,9 +34,7 @@ def dlpoints(asset, startTS, endTS):
         print("SmartSense Login info is required")
         dataUser = input("What is your username?")
         dataPW = input("What is your password?")
-        data = '{"userName": dataUser, "password": dataPW}'
-
-    
+        data = {"userName": dataUser, "password": dataPW}
 
     headers = {
         "authority": "app.smartsense.co",

@@ -4,8 +4,8 @@ Converts dataframe to excel file
 import datetime
 
 import pandas as pd
-import xlsxwriter
-from matplotlib import lines
+#import xlsxwriter
+#from matplotlib import lines
 
 from digi_login import dlpoints
 
@@ -157,5 +157,5 @@ if __name__ == "__main__":
     endTS = "1643691599999"
     asset = "156354"
     outputFile = "OutputXLSX.xlsx"
-    response = dlpoints(asset, startTS, endTS)
-    createXLSX(response, outputFile)
+    thisresponse = dlpoints(asset, startTS, endTS)
+    createXLSX(thisresponse, outputFile)
