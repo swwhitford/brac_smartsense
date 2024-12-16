@@ -15,12 +15,12 @@ if __name__ == "__main__":
         156452,
         156453,
         156454,
-        160840,
+        #160840, old Fisher -80
         445018 #so Low in 479
     }
 
-    startDate = my_StringtoDatetime("10/1/2023")
-    endDate = my_StringtoDatetime("10/31/2023 23:59:59")
+    startDate = my_StringtoDatetime("3/1/2023")
+    endDate = my_StringtoDatetime("9/30/2024 23:59:59")
 
     eachAssetXL(assets, startDate, endDate)
 
