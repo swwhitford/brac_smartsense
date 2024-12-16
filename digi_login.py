@@ -58,7 +58,8 @@ def dlpoints(asset, startTS, endTS):
             "https://app.smartsense.co/api/Login", headers=headers, data=data
         )
 
-    # print(checkHTMLResponse(response))
+    #print(checkHTMLResponse(response))
+    #TODO: If checkHTMLResponse == "Code: 401 - Unauthorized" break because the password is wrong
 
     tokendict = ast.literal_eval(response.text)
     token = str(tokendict["token"])
