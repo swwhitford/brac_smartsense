@@ -47,6 +47,19 @@ def createXLSX(response, outputFileName: str):
     df = df.sort_values(by="Date")
 
     chartTitle = getChartTitle(df)
+    
+    #conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
+    #Read title to get whether freezer is -20 or -80 --> low_range & high_range
+    low_range = 100
+    high_range = 101
+
+    if "-20" in chartTitle:
+        low_range = -25
+        high_range = -15
+
+    if "-80" in chartTitle:
+        low_range = -65
+        high_range = -95
 
     # Set Column types
     df["Date"] = pd.to_datetime(df["Date"])
@@ -67,23 +80,10 @@ def createXLSX(response, outputFileName: str):
     workbook = writer.book
     worksheet = writer.sheets[sName]
 
-    # TODO: Add conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
-    # TODO: Read title to get whether freezer is -20 or -80 --> low_range & high_range
-    low_range = 100
-    high_range = 101
-
-    if "-20" in chartTitle:
-        low_range = -25
-        high_range = -15
-
-    if "-80" in chartTitle:
-        low_range = -65
-        high_range = -95
-
     format1 = workbook.add_format({"bg_color": "#FFFF00"})
 
     worksheet.conditional_format(
-        "D1:D1048576",
+        "F1:F1048576",
         {
             "type": "cell",
             "criteria": "not between",
