@@ -23,6 +23,7 @@ def createXLSX(response, outputFileName: str):
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
     # pylint: disable=abstract-class-instantiated
+    #TODO: change to "with pd.ExcelWriter(outputFileName, engine="xlsxwriter") as writer:" and nest all writing functions underneath
     writer = pd.ExcelWriter(outputFileName, engine="xlsxwriter")
 
     for eachLines in lines:
