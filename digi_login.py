@@ -59,8 +59,11 @@ def dlpoints(asset, startTS, endTS):
         )
 
     #print(checkHTMLResponse(response))
-    #TODO: If checkHTMLResponse == "Code: 401 - Unauthorized" break because the password is wrong
-
+    
+    #If checkHTMLResponse == "Code: 401 - Unauthorized" break because the password is wrong
+    if checkHTMLResponse(response)=="Code: 401 - Unauthorized":
+         raise Exception("Username or password is incorrect")
+    
     tokendict = ast.literal_eval(response.text)
     token = str(tokendict["token"])
 
