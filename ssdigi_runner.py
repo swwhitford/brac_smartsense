@@ -6,21 +6,19 @@ from digi_login import dlpoints
 if __name__ == "__main__":
     
     assets = {
-        156368,
-        156370,
-        156375,
+        #156368,
+        #156370,
+        #156375,
         156376,
-        156377,
-        #156378, #inherited freezer
-        156452,
-        156453,
-        156454,
-        #160840, old Fisher -80
-        445018 #so Low in 479
+        #156377,
+        #156452,
+        #156453,
+        #156454,
+        #445018
     }
 
-    startDate = my_StringtoDatetime("3/1/2023")
-    endDate = my_StringtoDatetime("9/30/2024 23:59:59")
+    startDate = my_StringtoDatetime("05/1/2025")
+    endDate = my_StringtoDatetime("09/30/2025 23:59:59")
 
     eachAssetXL(assets, startDate, endDate)
 

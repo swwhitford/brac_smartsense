@@ -57,10 +57,14 @@ def createXLSX(response, outputFileName: str):
     if "-20" in chartTitle:
         low_range = -25
         high_range = -15
+        axis_min = -30
+        axis_max = -10
 
     if "-80" in chartTitle:
         low_range = -65
         high_range = -95
+        axis_min = -100
+        axis_max = -50
 
     # Set Column types
     df["Date"] = pd.to_datetime(df["Date"])
@@ -125,7 +129,12 @@ def createXLSX(response, outputFileName: str):
         }
     )
 
-    chart.set_y_axis({"name": "Temperature"})
+    chart.set_y_axis(
+        {
+            "name": "Temperature",
+            "min": axis_min,
+            "max": axis_max
+            })
     chart.set_legend({"none": True})
 
     chartsheet = workbook.add_chartsheet()
