@@ -61,7 +61,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     "Temp_"
                     + str(asset)
                     + "_"
-                    + str(monthYr[0])
+                    + str(monthYr[0]).zfill(2)
                     + "-"
                     + str(monthYr[1])
                     + ".xlsx"
