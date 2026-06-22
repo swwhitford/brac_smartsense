@@ -134,6 +134,7 @@ def createXLSX(response, outputFileName: str, charttitle: str):
             "date_axis": True,
             "num_format": "mm/dd/yyyy",
             "major_unit": 1,
+            'label_position': 'low',
         }
     )
 
@@ -148,11 +149,6 @@ def createXLSX(response, outputFileName: str, charttitle: str):
         y_axis_options["max"] = axis_max
 
     chart.set_y_axis(y_axis_options)
-
-
-
-
-
 
     chart.set_legend({"none": True})
 
