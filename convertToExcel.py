@@ -12,6 +12,8 @@ from digi_login import dlpoints
 
 def createXLSX(response, outputFileName: str):
     # outputFileName = "output.xlsx"
+    axis_min = 0
+    axis_max = 0
 
     lines = {}
     for l in response.text.splitlines():
@@ -65,6 +67,11 @@ def createXLSX(response, outputFileName: str):
         high_range = -95
         axis_min = -100
         axis_max = -50
+
+    if "RT" in chartTitle:
+        axis_min = 10
+        axis_max = 50
+
 
     # Set Column types
     df["Date"] = pd.to_datetime(df["Date"])
@@ -129,12 +136,23 @@ def createXLSX(response, outputFileName: str):
         }
     )
 
-    chart.set_y_axis(
-        {
-            "name": "Temperature",
-            "min": axis_min,
-            "max": axis_max
-            })
+    y_axis_options = {
+        "name": "Temperature",
+    }
+
+    if axis_min is not 0:
+        y_axis_options["min"] = axis_min
+
+    if axis_max is not 0:
+        y_axis_options["max"] = axis_max
+
+    chart.set_y_axis(y_axis_options)
+
+
+
+
+
+
     chart.set_legend({"none": True})
 
     chartsheet = workbook.add_chartsheet()
@@ -144,7 +162,7 @@ def createXLSX(response, outputFileName: str):
     chartsheet.activate()  # First visible worksheet.
 
     # Close the Pandas Excel writer and output the Excel file.
-    writer.save()
+    writer.close()
 
 
 def getChartTitle(df) -> list:
@@ -160,12 +178,12 @@ def getChartTitle(df) -> list:
     return chartTitle
 
 
-if __name__ == "__main__":
-    # startTS = "1644382800000"
-    startTS = "1641013200000"
-    # endTS   = "1644469199999"
-    endTS = "1643691599999"
-    asset = "156354"
-    outputFile = "OutputXLSX.xlsx"
-    thisresponse = dlpoints(asset, startTS, endTS)
-    createXLSX(thisresponse, outputFile)
+# if __name__ == "__main__":
+#     # startTS = "1644382800000"
+#     startTS = "1641013200000"
+#     # endTS   = "1644469199999"
+#     endTS = "1643691599999"
+#     asset = "156354"
+#     outputFile = "OutputXLSX.xlsx"
+#     thisresponse = dlpoints(asset, startTS, endTS)
+#     createXLSX(thisresponse, outputFile)
