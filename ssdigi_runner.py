@@ -1,5 +1,6 @@
 from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime, dlMonthChart, responseToFile
 import convertToExcel
+import freezer_name_lookup_table
 
 from digi_login import dlpoints
 
@@ -15,7 +16,7 @@ if __name__ == "__main__":
         #156453,
         #156454,
         #445018,
-        655236,
+        #655236,
         544675
     }
 
@@ -40,5 +41,5 @@ def singleMonthToXLS():
     year = 2021
 
     response = dlMonthChart(asset, month, year)
-    convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv")
+    convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv", freezer_name_lookup_table.getFreezerName(asset))
     

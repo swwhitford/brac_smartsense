@@ -4,6 +4,7 @@ import calendar
 import datetime
 from urllib import response
 
+import freezer_name_lookup_table
 import convertToExcel
 
 # from smartsense.digi_login import *
@@ -67,7 +68,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     + ".xlsx"
                 )
                 # print (filename)
-                convertToExcel.createXLSX(resp, "output/" + filename)
+                convertToExcel.createXLSX(resp, "output/" + filename, freezer_name_lookup_table.getFreezerName(asset))
             else:
                 print(
                     "No Data for Asset: "

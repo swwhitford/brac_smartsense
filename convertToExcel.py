@@ -4,13 +4,13 @@ Converts dataframe to excel file
 import datetime
 
 import pandas as pd
-#import xlsxwriter
+import xlsxwriter
 #from matplotlib import lines
 
 from digi_login import dlpoints
 
 
-def createXLSX(response, outputFileName: str):
+def createXLSX(response, outputFileName: str, charttitle: str):
     # outputFileName = "output.xlsx"
     axis_min = 0
     axis_max = 0
@@ -49,7 +49,8 @@ def createXLSX(response, outputFileName: str):
 
     df = df.sort_values(by="Date")
 
-    chartTitle = getChartTitle(df)
+    #chartTitle = getChartTitle(df)
+    chartTitle = charttitle
     
     #conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
     #Read title to get whether freezer is -20 or -80 --> low_range & high_range
@@ -140,10 +141,10 @@ def createXLSX(response, outputFileName: str):
         "name": "Temperature",
     }
 
-    if axis_min is not 0:
+    if axis_min != 0:
         y_axis_options["min"] = axis_min
 
-    if axis_max is not 0:
+    if axis_max != 0:
         y_axis_options["max"] = axis_max
 
     chart.set_y_axis(y_axis_options)
