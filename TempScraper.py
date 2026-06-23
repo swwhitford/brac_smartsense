@@ -68,7 +68,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     + ".xlsx"
                 )
                 # print (filename)
-                convertToExcel.createXLSX(resp, "output/" + filename, freezer_name_lookup_table.getFreezerName(asset))
+                convertToExcel.createXLSX(resp, "output/" + filename, asset)
             else:
                 print(
                     "No Data for Asset: "

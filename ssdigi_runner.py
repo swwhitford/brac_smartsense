@@ -6,19 +6,7 @@ from digi_login import dlpoints
 
 if __name__ == "__main__":
     
-    assets = {
-        #156368,
-        #156370,
-        #156375,
-        #156376,
-        #156377,
-        #156452,
-        #156453,
-        #156454,
-        #445018,
-        #655236,
-        544675
-    }
+    assets = freezer_name_lookup_table.getFreezerIDs()
 
     startDate = my_StringtoDatetime("03/1/2026")
     endDate = my_StringtoDatetime("03/31/2026 23:59:59")
@@ -41,5 +29,5 @@ def singleMonthToXLS():
     year = 2021
 
     response = dlMonthChart(asset, month, year)
-    convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv", freezer_name_lookup_table.getFreezerName(asset))
+    convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv", asset)
     
