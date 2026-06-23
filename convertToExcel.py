@@ -5,12 +5,13 @@ import datetime
 
 import pandas as pd
 import xlsxwriter
+import freezer_name_lookup_table
 #from matplotlib import lines
 
 from digi_login import dlpoints
 
 
-def createXLSX(response, outputFileName: str, charttitle: str):
+def createXLSX(response, outputFileName: str, freezerID: int):
     # outputFileName = "output.xlsx"
     axis_min = 0
     axis_max = 0
@@ -50,26 +51,27 @@ def createXLSX(response, outputFileName: str, charttitle: str):
     df = df.sort_values(by="Date")
 
     #chartTitle = getChartTitle(df)
-    chartTitle = charttitle
+    chartTitle = freezer_name_lookup_table.getFreezerName(freezerID)
+    chartMean = freezer_name_lookup_table.getFreezerMean(freezerID)
     
     #conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
     #Read title to get whether freezer is -20 or -80 --> low_range & high_range
     low_range = 100
     high_range = 101
 
-    if "-20" in chartTitle:
+    if (chartMean==-20):
         low_range = -25
         high_range = -15
         axis_min = -30
         axis_max = -10
 
-    if "-80" in chartTitle:
+    if (chartMean==-80):
         low_range = -65
         high_range = -95
         axis_min = -100
         axis_max = -50
 
-    if "RT" in chartTitle:
+    if (chartMean==21):
         axis_min = 10
         axis_max = 50
 
