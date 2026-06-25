@@ -6,7 +6,7 @@ lookup = {
     156376: ["RF482 -80C Thermo Freezer",-80],
     156377: ["RF480 -20C SoLo Freezer",-20],
     156452: ["RF479 Room Temperature (Stirling)",21],
-    156453: ["RF480 Room Temperature (SoLo)",21],
+    156453: ["RF480 Room Temperature and Humidity(SoLo)",21],
     156454: ["RF480 Room Temperature",21],
     445018: ["RF479 -20C SoLo Freezer",-20],
     655236: ["RF479 4C Metabolics Refrigerator",4],
