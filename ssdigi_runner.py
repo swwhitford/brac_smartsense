@@ -31,4 +31,3 @@ def singleMonthToXLS():
 
     response = dlMonthChart(asset, month, year)
     convertToExcel.createXLSX(response, asset+"-"+str(month)+"-"+str(year)+".csv", asset)
-    
