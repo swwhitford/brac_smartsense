@@ -112,8 +112,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     worksheet.set_column("A:A", 20)
 
     # Create a chart object.
-    chart = workbook.add_chart({"type": "line"})
-    # chart = workbook.add_chart({"type": "scatter"})
+    #chart = workbook.add_chart({"type": "line"})
+    chart = workbook.add_chart({"type": "scatter"})
 
     # Configure the series of the chart from the dataframe data.
     max_row = len(df) + 1
@@ -124,8 +124,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
             "name": [sName, 0, 5],
             "categories": [sName, 1, cols.index("Date"), max_row, cols.index("Date")],
             "values": [sName, 1, cols.index("Reading"), max_row, cols.index("Reading")],
-            #'line':   {'color': 'blue'},
-            #'marker': {'type': 'none'},
+            'line':   {'width': 0.25},
+            'marker': {'type': 'none'},
         }
     )
 
