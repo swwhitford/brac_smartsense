@@ -50,8 +50,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
 
     df = df.sort_values(by="Date")
 
-    #chartTitle = getChartTitle(df)
-    chartTitle = freezer_name_lookup_table.getFreezerName(freezerID)
+    chartDate = getChartTitleDate(df)
+    chartTitle = freezer_name_lookup_table.getFreezerName(freezerID) + chartDate
     chartMean = freezer_name_lookup_table.getFreezerMean(freezerID)
     
     #conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
@@ -68,12 +68,18 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     if (chartMean==-80):
         low_range = -65
         high_range = -95
-        axis_min = -100
-        axis_max = -50
+        axis_min = -95
+        axis_max = -55
 
     if (chartMean==21):
         axis_min = 10
         axis_max = 50
+
+    if (chartMean==4):
+        axis_min = 0
+        axis_max = 8
+        low_range = 0
+        high_range = 8
 
 
     # Set Column types
@@ -130,13 +136,17 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     )
 
     chart.set_title({"name": chartTitle})
-    chart.set_x_axis({"name": "Date"})
     chart.set_x_axis(
         {
+            "name": "Date",
             "date_axis": True,
             "num_format": "mm/dd/yyyy",
             "major_unit": 1,
             'label_position': 'low',
+            'minor_unit_type': 'days',
+            'num_font': {'rotation': -45},
+            'min': date(2023,1,1),
+            "max": date(2024,1,1)
         }
     )
 
@@ -163,8 +173,7 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     # Close the Pandas Excel writer and output the Excel file.
     writer.close()
 
-
-def getChartTitle(df) -> list:
+def getChartTitleDate(df) -> list:
     '''get Month/year for chart title'''
     datetime2 = df._get_value(1, "Date")
     dtObj = datetime.datetime.strptime(datetime2, "%m/%d/%Y %H:%M:%S")
@@ -172,9 +181,10 @@ def getChartTitle(df) -> list:
     year = dtObj.strftime("%Y")
 
     # get Freezer name for chart title
-    freezerName = df._get_value(1, "Sensor Name")
-    chartTitle = freezerName + "\n" + month + " " + year
-    return chartTitle
+    #freezerName = df._get_value(1, "Sensor Name")
+    #chartTitle = freezerName + "\n" + month + " " + year
+    #return chartTitle
+    return "\n" +month + " " + year
 
 
 # if __name__ == "__main__":
