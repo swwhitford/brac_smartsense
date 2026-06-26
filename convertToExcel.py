@@ -1,7 +1,8 @@
 """
 Converts dataframe to excel file
 """
-import datetime
+
+from datetime import date, datetime
 
 import pandas as pd
 import xlsxwriter
@@ -86,6 +87,9 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     df["Date"] = pd.to_datetime(df["Date"])
     df["Reading"] = pd.to_numeric(df["Reading"])
 
+    axis_startdate = min(df["Date"])
+    axis_enddate = max(df["Date"])
+
     sName2 = df["Sensor Name"].iloc[0]
     sName = sName2[:30]
     # or df._get_value(1, "Sensor Name")
@@ -145,8 +149,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
             'label_position': 'low',
             'minor_unit_type': 'days',
             'num_font': {'rotation': -45},
-            'min': date(2023,1,1),
-            "max": date(2024,1,1)
+            'min': date(axis_startdate.year,axis_startdate.month,axis_startdate.day),
+            "max": date(axis_enddate.year,axis_enddate.month,axis_enddate.day)
         }
     )
 
@@ -176,11 +180,11 @@ def createXLSX(response, outputFileName: str, freezerID: int):
 def getChartTitleDate(df) -> list:
     '''get Month/year for chart title'''
     datetime2 = df._get_value(1, "Date")
-    dtObj = datetime.datetime.strptime(datetime2, "%m/%d/%Y %H:%M:%S")
+    dtObj = datetime.strptime(datetime2, "%m/%d/%Y %H:%M:%S")
     month = dtObj.strftime("%B")
     year = dtObj.strftime("%Y")
 
-    # get Freezer name for chart title
+    # get Freezer name from chart title
     #freezerName = df._get_value(1, "Sensor Name")
     #chartTitle = freezerName + "\n" + month + " " + year
     #return chartTitle
