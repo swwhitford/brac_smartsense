@@ -28,20 +28,24 @@ def my_StringtoDatetime(strdate: str) -> datetime:
 #     endDate = my_StringtoDatetime(endStr)
 #     eachAssetCSV(assetList, startDate, endDate)
 
-
-def dlMonthChart(asset: str, month: int, year: int) -> response:
-    # Take a month and year, and download a chart for it
-
+def wholeMonth(month: int, year: int) -> str:
     # get last day of month
     lastDay = calendar.monthrange(year, month)[1]
 
     # create date string
     fullfirst = f'{month}{"/1/"}{year}{" 00:00:00"}'
     fulllast = f'{month}{"/"}{lastDay}{"/"}{year}{" 23:59:59"}'
+    return my_StringtoDatetime(fullfirst), my_StringtoDatetime(fulllast)
+
+
+def dlMonthChart(asset: str, month: int, year: int) -> response:
+    # Take a month and year, and download a chart for it
+
+    fullfirst, fulllast = wholeMonth(month, year)
 
     # convert to timestamp
-    startTS = dateToTimestamp(my_StringtoDatetime(fullfirst))
-    endTS = dateToTimestamp(my_StringtoDatetime(fulllast))
+    startTS = dateToTimestamp(fullfirst)
+    endTS = dateToTimestamp(fulllast)
 
     rsp = dlpoints(asset, startTS, endTS)
     return rsp
