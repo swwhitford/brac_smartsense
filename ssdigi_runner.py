@@ -1,4 +1,4 @@
-from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime, dlMonthChart, responseToFile
+from TempScraper import eachAssetXL, eachAssetXL, my_StringtoDatetime, dlMonthChart, responseToFile, wholeMonth
 import convertToExcel
 import freezer_name_lookup_table
 
@@ -9,8 +9,7 @@ if __name__ == "__main__":
     #assets = freezer_name_lookup_table.getFreezerIDs()
     assets = [445018]
 
-    startDate = my_StringtoDatetime("05/1/2026")
-    endDate = my_StringtoDatetime("05/31/2026 23:59:59")
+    startDate, endDate = wholeMonth(5,2026)
 
     eachAssetXL(assets, startDate, endDate)
 
