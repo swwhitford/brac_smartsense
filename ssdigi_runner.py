@@ -6,10 +6,10 @@ from digi_login import dlpoints
 
 if __name__ == "__main__":
     
-    #assets = freezer_name_lookup_table.getFreezerIDs()
-    assets = [445018]
+    assets = freezer_name_lookup_table.getFreezerIDs()
+    #assets = [156452]
 
-    startDate, endDate = wholeMonth(5,2026)
+    startDate, endDate = wholeMonth(10,2026)
 
     eachAssetXL(assets, startDate, endDate)
 

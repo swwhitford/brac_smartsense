@@ -19,16 +19,13 @@ def createXLSX(response, outputFileName: str, freezerID: int):
 
     lines = {}
     for l in response.text.splitlines():
-        sName2 = l.split(",")[0]
+        sName2 = l.split(",")[2]
         if sName2 != "Sensor Name":
             if sName2 not in lines:
                 lines[sName2] = []
             lines[sName2].append(l.split(","))
 
-    # Create a Pandas Excel writer using XlsxWriter as the engine.
-    # pylint: disable=abstract-class-instantiated
-    #TODO: change to "with pd.ExcelWriter(outputFileName, engine="xlsxwriter") as writer:" and nest all writing functions underneath
-    writer = pd.ExcelWriter(outputFileName, engine="xlsxwriter")
+    
 
     for eachLines in lines:
         df = pd.DataFrame(
@@ -49,10 +46,38 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     df.drop(index=0, inplace=True)
     df.rename(columns={"Date & Time (UTC-5)": "Date"}, inplace=True)
 
+    #find assets with multiple ports/reading type, and put each combination in a touple
+    unique_tuples = list(df[['Port Number', 'Reading Type']].drop_duplicates().to_records(index=False))
+
+    for readings in unique_tuples:
+            port = readings[0]
+            readingType = readings[1]
+            new_df = df[(df['Port Number'] == readings[0]) & (df['Reading Type'] == readings[1])]
+
+            outputFileName2 = outputFileName.replace(".xlsx", "-" + port + "-" + readingType[:1] + ".xlsx")
+            
+            fID_Touple = (freezerID, int(port), readingType)
+            
+
+            #if readingType =="humidity (%RH)" : freezerID = freezerID + (int(port)*1000000)
+            
+            createXLSX_fromDF(new_df, outputFileName2, fID_Touple)
+
+
+
+def createXLSX_fromDF(df, outputFileName: str, freezerID):
+
+
+    # Create a Pandas Excel writer using XlsxWriter as the engine.
+    # pylint: disable=abstract-class-instantiated
+    #TODO: change to "with pd.ExcelWriter(outputFileName, engine="xlsxwriter") as writer:" and nest all writing functions underneath
+    writer = pd.ExcelWriter(outputFileName, engine="xlsxwriter")
+
     df = df.sort_values(by="Date")
 
     chartDate = getChartTitleDate(df)
-    chartTitle = freezer_name_lookup_table.getFreezerName(freezerID) + chartDate
+    chartTitle = freezer_name_lookup_table.getFreezerName(freezerID) 
+    chartTitle = chartTitle + chartDate
     chartMean = freezer_name_lookup_table.getFreezerMean(freezerID)
     
     #conditional formatting when value is outside of range (-65 to -95 for -80 freezer; -15 to -25 for -20 freezer)
@@ -61,10 +86,10 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     high_range = 101
 
     if (chartMean==-20):
-        low_range = -25
-        high_range = -15
-        axis_min = -30
-        axis_max = -10
+        low_range = -30 #For Flagging on worksheet
+        high_range = -15 #For Flagging on worksheet
+        axis_min = -30 #For drawing axis ranges on chart
+        axis_max = -10 #For drawing axis ranges on chart
 
     if (chartMean==-80):
         low_range = -65
@@ -93,6 +118,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     sName2 = df["Sensor Name"].iloc[0]
     sName = sName2[:30]
     # or df._get_value(1, "Sensor Name")
+
+    y_axis_title = df["Reading Type"].iloc[0]
 
     # list column names so they can be called by name, rather than index
     cols = df.columns.tolist()
@@ -155,7 +182,7 @@ def createXLSX(response, outputFileName: str, freezerID: int):
     )
 
     y_axis_options = {
-        "name": "Temperature",
+        "name": y_axis_title,
     }
 
     if axis_min != 0:
@@ -179,7 +206,8 @@ def createXLSX(response, outputFileName: str, freezerID: int):
 
 def getChartTitleDate(df) -> list:
     '''get Month/year for chart title'''
-    datetime2 = df._get_value(1, "Date")
+    datetime2 = df._get_value(df.index.min(), "Date")
+
     dtObj = datetime.strptime(datetime2, "%m/%d/%Y %H:%M:%S")
     month = dtObj.strftime("%B")
     year = dtObj.strftime("%Y")
@@ -189,6 +217,8 @@ def getChartTitleDate(df) -> list:
     #chartTitle = freezerName + "\n" + month + " " + year
     #return chartTitle
     return "\n" +month + " " + year
+
+
 
 
 # if __name__ == "__main__":

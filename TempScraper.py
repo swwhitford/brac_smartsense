@@ -72,7 +72,7 @@ def eachAssetXL(assetList: list, start: datetime, end: datetime):
                     + ".xlsx"
                 )
                 # print (filename)
-                convertToExcel.createXLSX(resp, "output/" + filename, asset)
+                convertToExcel.createXLSX(resp, "output2/" + filename, asset)
             else:
                 print(
                     "No Data for Asset: "
